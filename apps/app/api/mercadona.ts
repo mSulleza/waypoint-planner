@@ -1,8 +1,14 @@
+import { bearer, KB, refuseEarly } from '../src/server/guard'
 import { handle } from '../src/server/mercadona'
+
+// The request is a few search words.
+const MAX_BODY = 64 * KB
 
 // POST /api/mercadona: Add an item's product search (src/server/mercadona), from the server so the browser never calls the shop.
 export async function POST(request: Request): Promise<Response> {
-  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? null
+  const early = refuseEarly(request, MAX_BODY)
+  if (early) return early
+  const token = bearer(request)
   const body: unknown = await request.json().catch(() => null)
   const env = {
     supabase_url: process.env.EXPO_PUBLIC_SUPABASE_URL,

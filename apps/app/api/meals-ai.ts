@@ -1,8 +1,14 @@
 import { handle } from '../src/ai/meals-swap'
+import { bearer, KB, refuseEarly } from '../src/server/guard'
+
+// The largest request, a week's plan with its recipe costs, is a few KB.
+const MAX_BODY = 64 * KB
 
 // POST /api/meals-ai: the meals helper (src/ai/meals-swap). The DeepSeek key stays on the server; the caller's own sign-in token reads their meals.
 export async function POST(request: Request): Promise<Response> {
-  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? null
+  const early = refuseEarly(request, MAX_BODY)
+  if (early) return early
+  const token = bearer(request)
   const body: unknown = await request.json().catch(() => null)
   const env = {
     supabase_url: process.env.EXPO_PUBLIC_SUPABASE_URL,

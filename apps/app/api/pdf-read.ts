@@ -1,9 +1,15 @@
-import { handlePdfRead } from '../src/ai/pdf-read'
+import { handlePdfRead, MAX_PDF_BYTES } from '../src/ai/pdf-read'
 import { pdfText } from '../src/ai/pdf-text'
+import { bearer, KB, refuseEarly } from '../src/server/guard'
+
+// The largest PDF as base64 (about 4 MB), and room for the rest of the request.
+const MAX_BODY = Math.ceil(MAX_PDF_BYTES / 3) * 4 + 64 * KB
 
 // POST /api/pdf-read: Fill from PDF (src/ai/pdf-read). The DeepSeek key stays on the server, and the PDF, its password and its text are read in memory and never kept.
 export async function POST(request: Request): Promise<Response> {
-  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? null
+  const early = refuseEarly(request, MAX_BODY)
+  if (early) return early
+  const token = bearer(request)
   const body: unknown = await request.json().catch(() => null)
   const env = {
     supabase_url: process.env.EXPO_PUBLIC_SUPABASE_URL,
