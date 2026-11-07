@@ -1,0 +1,25 @@
+{
+  "name": "@waypoint/mcp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "start": "tsx src/index.ts",
+    "login": "tsx src/cli.ts login"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "@supabase/supabase-js": "2.117.3",
+    "@waypoint/core": "workspace:*",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "tsx": "4.23.15",
+    "typescript": "~6.0.3",
+    "vite": "8.3.3",
+    "vitest": "5.0.3"
+  }
+}

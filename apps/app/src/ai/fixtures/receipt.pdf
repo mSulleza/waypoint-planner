@@ -1,0 +1,75 @@
+%PDF-1.3
+%‚„œ”
+1 0 obj
+<<
+/Producer (pypdf)
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Count 1
+/Kids [ 4 0 R ]
+>>
+endobj
+3 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+4 0 obj
+<<
+/Type /Page
+/Resources <<
+/Font <<
+/F1 <<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+>>
+>>
+/MediaBox [ 0.0 0.0 612 792 ]
+/Parent 2 0 R
+/Contents 5 0 R
+>>
+endobj
+5 0 obj
+<<
+/Length 639
+>>
+stream
+BT /F1 9 Tf 60 740 Td (SUPERMERCADO EJEMPLO S.L.) Tj ET
+BT /F1 9 Tf 60 726 Td (Calle Ejemplo 1, 28001 Madrid) Tj ET
+BT /F1 9 Tf 60 700 Td (FACTURA SIMPLIFICADA 2026-000123) Tj ET
+BT /F1 9 Tf 360 700 Td (14/10/2026 18:42) Tj ET
+BT /F1 9 Tf 60 680 Td (LECHE ENTERA 1L x2) Tj ET
+BT /F1 9 Tf 360 680 Td (1,98) Tj ET
+BT /F1 9 Tf 60 666 Td (ARROZ JAZMIN 1KG) Tj ET
+BT /F1 9 Tf 360 666 Td (2,45) Tj ET
+BT /F1 9 Tf 60 652 Td (POLLO MUSLOS) Tj ET
+BT /F1 9 Tf 360 652 Td (6,12) Tj ET
+BT /F1 9 Tf 60 630 Td (TOTAL \(EUR\)) Tj ET
+BT /F1 9 Tf 360 630 Td (10,55) Tj ET
+BT /F1 9 Tf 60 616 Td (TARJETA **** 0000) Tj ET
+BT /F1 9 Tf 360 616 Td (10,55) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000054 00000 n 
+0000000113 00000 n 
+0000000162 00000 n 
+0000000343 00000 n 
+trailer
+<<
+/Size 6
+/Root 3 0 R
+/Info 1 0 R
+>>
+startxref
+1033
+%%EOF

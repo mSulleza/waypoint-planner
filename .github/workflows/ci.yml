@@ -1,0 +1,76 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: No npm lockfiles
+        run: test -z "$(find . -name package-lock.json -not -path '*/node_modules/*')"
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+      - name: Walk bench under --jitless; a regression guard that fails above a 90 ms median full walk on this runner
+        run: pnpm --filter @waypoint/core exec tsx bench/walk.ts
+        env:
+          NODE_OPTIONS: --jitless
+          WALK_BUDGET_MS: 90
+      - name: Expo dependency versions match SDK
+        working-directory: apps/app
+        run: npx expo install --check
+      - name: Web JavaScript that index.html loads stays under 500 kB gzipped (an estimate)
+        run: pnpm --filter app bundle-size
+  changes:
+    runs-on: ubuntu-latest
+    # On a pull request the filter lists its files through the API.
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      database: ${{ steps.filter.outputs.database }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            database:
+              - 'supabase/**'
+              - 'packages/core/**'
+              - 'tests/db/**'
+              - 'apps/mcp/**'
+  database:
+    needs: changes
+    if: needs.changes.outputs.database == 'true'
+    runs-on: ubuntu-latest
+    env:
+      # Services the tests do not use; the MCP test restarts the stack with the same list.
+      SUPABASE_START_EXCLUDE: studio,imgproxy,realtime,storage-api,edge-runtime,logflare,vector
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Start the local database without the services the tests do not use
+        run: pnpm exec supabase start -x "$SUPABASE_START_EXCLUDE"
+      - run: pnpm exec supabase test db
+      - name: Point tests/db at the local API and publishable key from supabase status
+        run: |
+          pnpm exec supabase status -o env 2>/dev/null \
+            | sed -n -e 's/^API_URL="\(.*\)"$/SUPABASE_URL=\1/p' -e 's/^PUBLISHABLE_KEY="\(.*\)"$/SUPABASE_PUBLISHABLE_KEY=\1/p' >> "$GITHUB_ENV"
+      - name: MCP server over stdio against the local database, past a 60-second token expiry
+        # First: its restarts leave the auth rate limits fresh for tests/db.
+        run: test -n "$SUPABASE_URL" && test -n "$SUPABASE_PUBLISHABLE_KEY" && pnpm --filter @waypoint/mcp test
+      - name: Database tests through supabase-js
+        run: test -n "$SUPABASE_URL" && test -n "$SUPABASE_PUBLISHABLE_KEY" && pnpm test:db

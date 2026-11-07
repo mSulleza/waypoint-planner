@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.base.json",
+  // jsx: the Add sheet's model reaches a .tsx module for one type.
+  "compilerOptions": { "lib": ["ES2023", "DOM"], "types": ["node"], "jsx": "react-jsx" },
+  "include": ["test", "../../packages/core/src/papaparse.d.ts"]
+}

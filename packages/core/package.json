@@ -1,0 +1,38 @@
+{
+  "name": "@waypoint/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./csv": "./src/csv.ts",
+    "./compare": "./src/compare.ts",
+    "./pace": "./src/pace.ts",
+    "./meals": "./src/meals.ts",
+    "./meals-starter": "./src/meals-starter.ts",
+    "./agent": "./src/agent.ts",
+    "./fixtures": "./fixtures/index.ts",
+    "./fixtures/samples": "./fixtures/samples.ts",
+    "./fixtures/sample-list": "./fixtures/sample-list.ts",
+    "./fixtures/mark-size": "./fixtures/mark-size.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p bench/tsconfig.json",
+    "test": "vitest run",
+    "bench": "tsx bench/walk.ts"
+  },
+  "dependencies": {
+    "papaparse": "5.7.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "fast-check": "4.10.2",
+    "tsx": "4.23.15",
+    "typescript": "~6.0.3",
+    "vite": "8.3.3",
+    "vitest": "5.0.3"
+  }
+}

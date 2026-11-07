@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="%LANG_ISO_CODE%">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="color-scheme" content="light dark" />
+    <title>%WEB_TITLE%</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+    <!-- The page paints the theme's background (ui/tokens.ts COLORS bg) before the app loads, and scrollbars follow the theme. -->
+    <style id="waypoint-theme">
+      :root {
+        color-scheme: light dark;
+        background-color: #f0f3fb;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          background-color: #0e1221;
+        }
+      }
+      :root[data-theme='light'] {
+        color-scheme: light;
+        background-color: #f0f3fb;
+      }
+      :root[data-theme='dark'] {
+        color-scheme: dark;
+        background-color: #0e1221;
+      }
+    </style>
+    <!-- Each Instrument Sans weight loads as its own family (ui/tokens.ts FONT_FAMILIES), so the browser must never embolden a bold file again. -->
+    <style id="waypoint-font">
+      :root {
+        font-synthesis: none;
+      }
+    </style>
+    <!-- Settings' Appearance (data/device.ts APPEARANCE_KEY): a pinned Light or Dark marks the root before the first paint; System leaves it to the media query. -->
+    <script id="waypoint-appearance">
+      (function () {
+        try {
+          var kept = localStorage.getItem('waypoint:appearance');
+          if (kept === 'light' || kept === 'dark') document.documentElement.setAttribute('data-theme', kept);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "waypoint": {
+      "command": "pnpm",
+      "args": ["--filter", "@waypoint/mcp", "exec", "tsx", "src/index.ts"]
+    }
+  }
+}
